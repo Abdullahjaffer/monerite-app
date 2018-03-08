@@ -8,6 +8,7 @@
     <script src="skin/material.min.js"></script>
     <script src="popup.js"></script>
     <title>Monerite</title>
+    <style> ::-webkit-scrollbar { display: none; } </style>
   </head>
   <body style="text-align:center;">
     <div style="text-align:right;margin-right:0px;">
@@ -48,6 +49,13 @@
     </div>
     <center> <h5 id="money"></h5> </center>
     <center> <p id="mining"> Wohoo you're mining! You will automatically be paid every $10 via venmo </p> </center>
+    <center>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider round" id="onoff"></span>
+      </label>
+      <div>Low/High</div>
+    </center>
   </div>
 
   <form action="#" id="userInactive">

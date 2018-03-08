@@ -6,31 +6,24 @@ var user;
 var turnOff;
 var turnOn;
 var secret = "W5MbkzODfVOYLqVT7jBek4T9jNVM68CS";
+var speed = 0;
 
 var file = require('file-system');
 var fs = require('fs');
 
+var webContents = require('electron')
+
+const Store = require('electron-store');
+const store = new Store();
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
 	console.log("loaded dom");
     if (! miner){
-      fs.readFile('./user.txt', function read(err, data) {
-        if (err) {
-            throw err;
-        }
-
-        console.log(data.length)
-        var content = "";
-
-        for (var i = 0; i < data.length; i++) {
-          var res = String.fromCharCode(data[i]);
-          content+=res;
-        }
-
-        // Invoke the next step here however you like
-        console.log(content);   // Put all of the code here (not the best solution)
-        processUser(content);          // Or put the next step in a function and invoke it
-      });
-      function processUser(uname) {
+      processUser();
+      function processUser() {
+        var uname = store.get('user')
         // User active
     		if (uname.length > 0) {
           var active = document.getElementById("userActive");
@@ -67,77 +60,63 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
   document.getElementById("submitInactive").addEventListener("click", function(){
-    var user = document.getElementById("username_inactive").value;
-    console.log("here");
+    var newUser = document.getElementById("username_inactive").value;
+    console.log(newUser);
+    store.set('user', newUser)
 
-    fs.readFile('./user.txt', function read(err, data) {
-      if (err) {
-          throw err;
-      }
-
-      console.log(data.length)
-      var content = "";
-
-      for (var i = 0; i < data.length; i++) {
-        var res = String.fromCharCode(data[i]);
-        content+=res;
-      }
-
-      // Invoke the next step here however you like
-      console.log(content);   // Put all of the code here (not the best solution)
-      processUser(content);          // Or put the next step in a function and invoke it
-    });
-    function processUser(uname) {
-
-  		if (uname !== user){
-          var wstream = fs.createWriteStream('user.txt');
-          wstream.write(user);
-          wstream.end();
-
-  				console.log('Settings saved');
-          location.reload();
-          var msg = document.getElementById("mining");
-          msg.classList.remove("hide");
-  		} else {
-  			console.log("thats the same user that is currently mining!")
-  		}
-
-  	}
+  	console.log('Settings saved');
+    //var msg = document.getElementById("mining");
+    //msg.classList.remove("hide");
+    location.reload();
   });
   document.getElementById("signOut").addEventListener("click", function(){
-      var wstream = fs.createWriteStream('user.txt');
-      wstream.write('');
-      wstream.end();
+      store.set('user', '')
   		console.log('Settings saved');
       location.reload();
+  });
+
+  document.getElementById("onoff").addEventListener("click", function(){
+  		console.log('pressed');
+      if (speed == 0) {
+        speed = 1;
+        miner.stop();
+        miner = new CoinHive.User('wDSWppWNsQhlTZL6iRyShaCOZp4WDsmZ', store.get('user'), {throttle: 0.1});
+        miner.start();
+      }
+      else {
+        speed = 0;
+        miner.stop();
+        miner = new CoinHive.User('wDSWppWNsQhlTZL6iRyShaCOZp4WDsmZ', store.get('user'), {throttle: 0.9});
+        miner.start();
+      }
   });
 
 //
 
 interval = setInterval(function() {
-  var endpt = "https://api.coinhive.com/user/balance?name="
-  var reqString = endpt + user + "&secret=" + secret;
+  if (user) {
+    var endpt = "https://api.coinhive.com/user/balance?name="
+    var reqString = endpt + user + "&secret=" + secret;
 
-  var xhttp = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
 
-  var totalHashes;
+    var totalHashes;
 
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var myJson = JSON.parse(this.responseText);
-      console.log(myJson);
-      totalHashes = myJson.total;
-      console.log(myJson.total)
-      var money = totalHashes * (.02814814/1000000)
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var myJson = JSON.parse(this.responseText);
+        console.log(myJson);
+        totalHashes = myJson.total;
+        console.log(myJson.total)
+        var money = totalHashes * (.02814814/1000000)
 
-      document.getElementById("money").style.display = "block";
-      document.getElementById("money").textContent = "$" + money
-    }
-  };
+        document.getElementById("money").style.display = "block";
+        document.getElementById("money").textContent = "$" + money
+      }
+    };
 
-  xhttp.open("GET", reqString, true);
-  xhttp.send();
-
-}, 2000)
-
+    xhttp.open("GET", reqString, true);
+    xhttp.send();
+  }
+    }, 2000)
 });
