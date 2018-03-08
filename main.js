@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 500, minWidth: 400, minHeight: 500, icon: path.join(__dirname, 'images/app_icon.png')})
+  mainWindow = new BrowserWindow({width: 400, height: 500, minWidth: 400, minHeight: 500, icon: path.join(__dirname, 'assets/icons/png/64x64.png')})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

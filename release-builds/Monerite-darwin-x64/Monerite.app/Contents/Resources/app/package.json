@@ -1,0 +1,31 @@
+{
+  "name": "Monerite",
+  "productName": "Monerite",
+  "version": "1.0.0",
+  "description": "CPU Miner for Monero",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Monerite\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "monerite",
+    "monero",
+    "mining",
+    "miner"
+  ],
+  "author": "Connor Goggins",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^1.8.3",
+    "electron-installer-dmg": "^0.2.1",
+    "electron-packager": "^11.1.0"
+  },
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security"
+  }
+}
