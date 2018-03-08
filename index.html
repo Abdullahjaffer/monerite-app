@@ -2,15 +2,68 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="skin/material.min.css">
+    <link rel="stylesheet" type="text/css" href="skin/popup.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="skin/material.min.js"></script>
+    <script src="popup.js"></script>
     <title>Monerite</title>
   </head>
-  <body>
+  <body style="text-align:center;">
+    <div style="text-align:right;margin-right:0px;">
+      <button id="signOut" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" style="margin-right:10px;margin-top:10px;">
+        <i class="material-icons" style="color:#ff0000;font-size:18px;">close</i>
+      </button>
+    </div>
     <img id="logo" src="images/icon.png" style="width:25%;text-align:center;">
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+
+
+
+
+<div id="wrapper">
+  <div id="notification" hidden>
+    <div id="notification-content">
+      <h1>
+        <span id="notification-title"></span>
+        <span id="notification-close"></span>
+      </h1>
+      <p id="notification-message"></p>
+    </div>
+    <ul id="notification-close-content">
+      <li id="notification-hide"
+        class="i18n_overlay_notification_closing_button_hide"></li>
+      <li id="notification-optout"
+        class="i18n_overlay_notification_closing_button_optout"></li>
+    </ul>
+  </div>
+  <br><br>
+
+  <div id="userActive">
+    <div id="container">
+      <div style="margin-right:4px; margin-left: 6px;"></div>
+      <div id="username_active" style="margin-right:4px;"></div>
+      <div id="submitActive">
+        <i class="material-icons" style="color:#39f22c;">check</i>
+      </div>
+    </div>
+    <center> <h5 id="money"></h5> </center>
+    <center> <p id="mining"> Wohoo you're mining! You will automatically be paid every $10 via venmo </p> </center>
+  </div>
+
+  <form action="#" id="userInactive">
+    <div id="container">
+      <div id="text" class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="username_inactive" placeholder="Venmo Username">
+      </div>
+      <button id="submitInactive" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">check</i>
+      </button>
+    </div>
+  </form>
+
+
+
+</div>
 
     <script>
       // You can also require other files to run in this process
